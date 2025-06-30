@@ -10,10 +10,10 @@ const dynamicUpload = require('../middleware/dynamicUpload');
 
 router.get('/services', getAllServices);
 router.get('/get-service/:id',authenticateAdmin, getServiceById);
-router.post('/add-service', authenticateAdmin, dynamicUpload("uploads/service").single("service_img"),serviceValidationRules, validateRequest, createService,(req,res)=>{
+router.post('/add-service', authenticateAdmin, upload.single("service_img"),serviceValidationRules, validateRequest, createService,(req,res)=>{
     console.log(req.body);
 });
-router.put('/add-service/:id',authenticateAdmin, dynamicUpload("uploads/service").single("service_img"),serviceValidationRules, validateRequest, updateService);
+router.put('/add-service/:id',authenticateAdmin, upload.single("service_img"),serviceValidationRules, validateRequest, updateService);
 router.delete('/delete-service/:id',authenticateAdmin, deleteService);
     
 router.post("/ajax/service-list", getAjaxServices);
