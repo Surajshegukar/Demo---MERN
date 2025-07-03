@@ -203,7 +203,7 @@ export default function AddStudent() {
                   type="file"
                   accept="image/*"
                   {...register("profile")}
-                  className="form-control"
+                  className="form-control img-uploade"
                 />
                 {errors.profile && (
                   <p className="error">{errors.profile.message}</p>

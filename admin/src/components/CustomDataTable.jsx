@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
-
 import DataTable from "react-data-table-component";
 import Alert from "./Alert";
-// import './DataTableStyles.css'; // Import the CSS file
 
 const CustomDataTable = ({ tableName, url, columns, refresh, message }) => {
   const [items, setItems] = useState([]);
@@ -12,56 +10,48 @@ const CustomDataTable = ({ tableName, url, columns, refresh, message }) => {
   const [perPage, setPerPage] = useState(10);
   const [searchText, setSearchText] = useState("");
   const [orderDirection, setOrderDirection] = useState("asc");
-  const [orderColumn, setOrderColumn] = useState(0); // default to first column
+  const [orderColumn, setOrderColumn] = useState(0);
 
-  const fetchItems = useCallback(async (page, perPage = 10, search = "") => {
-    setLoading(true);
+  const fetchItems = useCallback(
+    async (page, perPage = 10, search = "") => {
+      setLoading(true);
 
-    const draw = page;
-    const start = (page - 1) * perPage;
-    const length = perPage;
+      const draw = page;
+      const start = (page - 1) * perPage;
+      const length = perPage;
 
-    const response = await fetch(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        draw,
-        start,
-        length,
-        search: { value: search },
-        order: [
-          {
-            column: orderColumn,
-            dir: orderDirection,
-          },
-        ],
-      }),
-    });
+      const response = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          draw,
+          start,
+          length,
+          search: { value: search },
+          order: [
+            {
+              column: orderColumn,
+              dir: orderDirection,
+            },
+          ],
+        }),
+      });
 
-    const json = await response.json();
-    setItems(json.data);
-    setTotalRows(json.recordsFiltered);
-    setLoading(false);
-  }, []);
+      const json = await response.json();
+      setItems(json.data);
+      setTotalRows(json.recordsFiltered);
+      setLoading(false);
+    },
+    [url, orderColumn, orderDirection]
+  );
+
   useEffect(() => {
     const timeout = setTimeout(() => {
       fetchItems(page, perPage, searchText);
-    }, 500); // waits for 500ms pause
+    }, 500);
 
     return () => clearTimeout(timeout);
-  }, [
-    searchText,
-    page,
-    perPage,
-    fetchItems,
-    refresh,
-    orderColumn,
-    orderDirection,
-  ]);
-
-  // useEffect(() => {
-  //   fetchItems(page, perPage, searchText);
-  // }, [page, perPage, fetchItems]);
+  }, [searchText, page, perPage, fetchItems, refresh, orderColumn, orderDirection]);
 
   const handlePageChange = (page) => setPage(page);
   const handlePerRowsChange = async (newPerPage, page) => {
@@ -69,18 +59,17 @@ const CustomDataTable = ({ tableName, url, columns, refresh, message }) => {
     setPage(page);
   };
 
-  // Custom styles for the data table
   const customStyles = {
     header: {
       style: {
-        minHeight: "56px",
+        minHeight: "50px",
         paddingLeft: "16px",
         paddingRight: "8px",
       },
     },
     headRow: {
       style: {
-        background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+        background: "#cccccc",
         color: "#ffffff",
         fontWeight: "600",
         fontSize: "14px",
@@ -118,6 +107,7 @@ const CustomDataTable = ({ tableName, url, columns, refresh, message }) => {
         paddingRight: "16px",
         paddingTop: "12px",
         paddingBottom: "12px",
+        minWidth: "50px",
       },
     },
     pagination: {
@@ -143,7 +133,6 @@ const CustomDataTable = ({ tableName, url, columns, refresh, message }) => {
       <div className="page_body">
         <div className="page_sec">
           {message && <Alert message={message} />}
-
           <input
             type="text"
             placeholder="Search..."
@@ -173,7 +162,7 @@ const CustomDataTable = ({ tableName, url, columns, refresh, message }) => {
                 const index = columns.findIndex(
                   (col) => col.name === column.name
                 );
-                setOrderColumn(index); // This must match backend's sortField mapping
+                setOrderColumn(index);
                 setOrderDirection(sortDirection);
               }}
             />

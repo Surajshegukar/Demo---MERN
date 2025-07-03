@@ -8,50 +8,64 @@ function ServiceList() {
   const [toggle, setToggle] = useState(false);
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
-  const columns = [
-    { name: "S.No", selector: (row) => row[0] },
-    { name: "Service Name", selector: (row) => row[1] },
-    { name: "Service Description", selector: (row) => row[2] },
-    {
-      name: "Service Image",
-      selector: (row) => (
-        <>
-          <Link
-            to={`http://localhost:3000/uploads/${row[3]}`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Preview
-          </Link>
-        </>
-      ),
-    },
-    { name: "Status", selector: (row) => row[4] },
-    {
-      name: "Actions",
-      cell: (row) => (
-        <>
-          <div className="tabe-btns">
-            <button
-              onClick={() => handleEdit(row[5])}
-              className="btn btn-sm btn-warning"
-            >
-              Edit
-            </button>
-            <button
-              onClick={() => handleDelete(row[5])}
-              className="btn btn-sm btn-danger"
-              style={{ marginLeft: "8px" }}
-            >
-              Delete
-            </button>
-          </div>
-        </>
-      ),
-      ignoreRowClick: true,
-      button: true,
-    },
-  ];
+const columns = [
+  {
+    name: "S.No",
+    selector: (row) => row[0],
+    width: "80px" // 👈 Set fixed width
+  },
+  {
+    name: "Service Name",
+    selector: (row) => row[1],
+    width: "200px" // 👈 Set minimum width
+  },
+  {
+    name: "Service Description",
+    selector: (row) => row[2],
+    minWidth: "150px" // 👈 Wider column for description
+  },
+  {
+    name: "Service Image",
+    selector: (row) => (
+      <Link
+        to={`http://localhost:3000/uploads/${row[3]}`}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Preview
+      </Link>
+    ),
+    width: "200px"
+  },
+  {
+    name: "Status",
+    selector: (row) => row[4],
+    width: "200px"
+  },
+  {
+    name: "Actions",
+    cell: (row) => (
+      <div className="tabe-btns">
+        <button
+          onClick={() => handleEdit(row[5])}
+          className="btn btn-sm btn-warning"
+        >
+          Edit
+        </button>
+        <button
+          onClick={() => handleDelete(row[5])}
+          className="btn btn-sm btn-danger"
+          style={{ marginLeft: "8px" }}
+        >
+          Delete
+        </button>
+      </div>
+    ),
+    width: "150px", // 👈 Make sure action buttons fit
+    ignoreRowClick: true,
+    button: true,
+  },
+];
 
   const handleEdit = (id) => {
     navigate("/add-service/" + id);
