@@ -175,7 +175,7 @@ export default function AddService() {
                   type="file"
                   accept="image/*"
                   {...register("service_img")}
-                  className="form-control"
+                  className="form-control img-uploade"
                 />
                 {errors.service_img && (
                   <p className="error">{errors.service_img.message}</p>
