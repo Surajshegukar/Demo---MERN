@@ -1,40 +1,20 @@
-import React, { useState } from "react";
-import Alert from "../components/Alert";
-import * as Yup from "yup";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import axios from "../utils/axiosInstance";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { useEffect } from "react";
+import { useNavigate, useParams, Link } from "react-router-dom";
+
+import Alert from "../components/Alert";
+import serviceSchema from "../validations/serviceSchema";
+import { getServiceById, submitServiceForm } from "../services/serviceApi";
+
 
 export default function AddService() {
+  const { id } = useParams();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
-  const navigate = useNavigate();
   const [imagePreview, setImagePreview] = useState("");
-  const { id } = useParams();
-
-  const schema = Yup.object({
-    service_name: Yup.string()
-      .min(2, "Service name must be at least 2 characters")
-      .max(100, "Service name cannot exceed 100 characters")
-      .required("Service name is required"),
-
-    service_description: Yup.string()
-      .min(2, "Last name must be at least 2 characters")
-      .max(100, "Last name cannot exceed 100 characters")
-      .required("Last name is required"),
-
-    service_img: Yup.mixed()
-      .nullable()
-      .test("fileType", "Only image files are allowed", (value) => {
-        if (!value || value.length === 0) return true;
-        return ["image/jpeg", "image/png", "image/jpg"].includes(
-          value[0]?.type
-        );
-      }),
-
-  });
+  const backendUrl = import.meta.env.REACT_APP_API_URL;
 
   const {
     register,
@@ -42,7 +22,7 @@ export default function AddService() {
     formState: { errors, isSubmitting },
     reset,
   } = useForm({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(serviceSchema),
   });
 
   const onSubmit = async (data) => {
@@ -54,22 +34,9 @@ export default function AddService() {
       if (data.service_img?.length) {
         formData.append("service_img", data.service_img[0]);
       }
-      console.log(formData)
-      const url = id
-        ? `http://localhost:3000/api/services/add-service/${id}`
-        : `http://localhost:3000/api/services/add-service`;
 
       const method = id ? "put" : "post";
-      
-
-      const response = await axios({
-        method,
-        url,
-        data: formData,
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const response = await submitServiceForm(id, formData, method);
 
       const { success, message } = response.data;
       setMessage(success ? `Success: ${message}` : `Error: ${message}`);
@@ -78,32 +45,22 @@ export default function AddService() {
       setMessage(`Error: ${msg}`);
     } finally {
       setLoading(false);
-      setTimeout(() => navigate('/service-list'), 3000);
-      
-      
+      setTimeout(() => navigate("/service-list"), 3000);
     }
   };
 
   useEffect(() => {
     if (id) {
-      const fetchStudent = async () => {
-        try {
-          const res = await axios.get(
-            `http://localhost:3000/api/services/get-service/${id}`
-          );
+      getServiceById(id)
+        .then((res) => {
           const data = res.data.data;
-
-          setImagePreview(`http://localhost:3000/uploads/${data.service_img}`);
-
           reset({
             service_name: data.service_name,
             service_description: data.service_description,
           });
-        } catch (err) {
-          setMessage("Error fetching service data");
-        }
-      };
-      fetchStudent();
+          setImagePreview(`${backendUrl}/uploads/services/${data.service_img}`);
+        })
+        .catch(() => setMessage("Error fetching service data"));
     }
   }, [id, reset]);
 
@@ -121,7 +78,6 @@ export default function AddService() {
             name="add_student_form"
             id="add_student_form"
             encType="multipart/form-data"
-
           >
             <div className="row flex_wrap">
               <div className="form-group col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12">
@@ -156,8 +112,6 @@ export default function AddService() {
                 )}
               </div>
 
-          
-
               <div className="form-group col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12">
                 <label>
                   Service Image
@@ -180,8 +134,7 @@ export default function AddService() {
                 {errors.service_img && (
                   <p className="error">{errors.service_img.message}</p>
                 )}
-              </div>        
-              
+              </div>
             </div>
 
             <div className="form-footer">

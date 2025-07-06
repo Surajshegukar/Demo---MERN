@@ -17,7 +17,7 @@ function ServiceList() {
       selector: (row) => (
         <>
           <Link
-            to={`http://localhost:3000/uploads/${row[3]}`}
+            to={`http://localhost:3000/uploads/services/${row[3]}`}
             target="_blank"
             rel="noopener noreferrer"
           >

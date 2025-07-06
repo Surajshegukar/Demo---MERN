@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { adminLogin } from "../features/auth/authSlice";
 import { useNavigate } from "react-router-dom";
 import Alert from "../components/Alert";
+import { Eye, EyeOff } from "lucide-react";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -13,6 +14,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
+  const [passwordVisible, setPasswordVisible] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -43,23 +45,38 @@ const Login = () => {
         {message && <Alert message={message} />}
 
         <form className="login-form" onSubmit={handleSubmit}>
-          <input
-            type="text"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="login-input"
-            required
-          />
+          <div className="form-group">
+            <input
+              type="text"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="login-input"
+              required
+            />
+          </div>
 
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="login-input"
-            required
-          />
+          <div
+            className="form-group password-group"
+          >
+            <input
+              type={passwordVisible ? "text" : "password"}
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="login-input"
+              required
+            />
+
+            <button
+              type="button"
+              onClick={() => setPasswordVisible(!passwordVisible)}
+              className="toggle-password"
+             
+            >
+              {passwordVisible ? <Eye /> : <EyeOff />}
+            </button>
+          </div>
 
           <button type="submit" className="login-button">
             LOGIN

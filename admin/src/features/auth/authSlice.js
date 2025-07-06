@@ -6,7 +6,7 @@ export const adminLogin = createAsyncThunk(
   'auth/adminLogin',
   async ({ email, password }, { rejectWithValue }) => {
     try {
-      const res = await axios.post('http://localhost:3000/auth/login', { email, password });
+      const res = await axios.post('/auth/login', { email, password });
       return res.data.data; 
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || 'Login failed');
@@ -14,14 +14,14 @@ export const adminLogin = createAsyncThunk(
   }
 );
 
-const token = localStorage.getItem('token');
+// const token = localStorage.getItem('token');
 
 const authSlice = createSlice({
   name: 'auth',
   initialState: {
     user:null,
-    token,
-    isAuthenticated: !!token,
+    token:null,
+    isAuthenticated: false,
     loading: false,
     error: null,
   },
