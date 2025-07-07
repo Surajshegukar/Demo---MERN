@@ -39,7 +39,10 @@ const Login = () => {
   return (
     <div id="center">
       <div className="login-container">
-        <h2 className="login-title">Welcome back</h2>
+        <div class="img-container ">
+        <img src="/logo.png" alt="" />
+        </div>
+        <h2 className="login-title mt-3">Welcome back</h2>
         <p className="login-subtitle">Login to the Dashboard</p>
 
         {message && <Alert message={message} />}

@@ -1,14 +1,14 @@
-/* Importing Google Fonts and Boxicons */
+
 @import "https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap";
 
 @import "https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css";
 
-/* Global style settings */
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Poppins", sans-serif; /* Applying 'Poppins' font globally */
+  font-family: "Poppins", sans-serif; 
 }
 html,body{
 height:100%;
@@ -19,20 +19,24 @@ height:100%;
   height: 100%;
 }
 
-/* Sidebar container styling */
+
 .sidebar {
   position: fixed;
   left: 0;
   top: 0;
   height: 100%;
-  width: 78px; /* Default sidebar width */
+  width: 78px; 
     background:#2c240a;
-  /* padding: 6px 14px; */
-  z-index: 99; /* Ensures sidebar is on top */
-  transition: all 0.5s ease; /* Smooth transition for width change */
-}
 
-/* Logo details within the sidebar */
+  z-index: 99; 
+  transition: all 0.5s ease;
+}
+.data-table-wrapper button {
+  white-space: nowrap;
+}
+.tabe-btns{
+  display: flex;
+}
 .sidebar .logo-details {
   height: 60px;
   display: flex;
@@ -42,14 +46,37 @@ height:100%;
   padding: 6px 14px; 
 }
 .sidebar .logo-details .icon {
-  opacity: 0; /* Hidden by default, shows when sidebar is expanded */
+  opacity: 0; 
   transition: all 0.5s ease;
 }
+.form-footer button {
+    padding: 6px 16px;
+    background-color: #2c240a ;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+/* Example CSS to allow full input visibility */
+input[type="file"] {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+.form-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+
 .sidebar .logo-details .logo_name {
   color: #fff;
   font-size: 20px;
   font-weight: 600;
-  opacity: 0; /* Hidden by default, shows when sidebar is expanded */
+  opacity: 0; 
   transition: all 0.5s ease;
 }
 .sidebar .logo-details #btn {
@@ -63,24 +90,24 @@ height:100%;
   transition: all 0.5s ease;
 }
 
-/* General icon styling */
+
 .sidebar i {
   color: #fff;
   height: 60px;
   min-width: 50px;
   font-size: 28px;
   text-align: center;
-  line-height: 60px; /* Centers icon vertically */
+  line-height: 60px; 
 }
 
-/* Sidebar navigation list styling */
+
 .sidebar .nav-list {
-  height: calc(100% - 140px); /* Leaves space for logo and profile */
+  height: calc(100% - 140px);
 }
 
-/* Scrollbar styles for sidebar */
+
 .sidebar .scroll {
-  overflow-y: auto; /* Enables vertical scrolling */
+  overflow-y: auto; 
   scrollbar-width: thin;
  
 }
@@ -89,19 +116,19 @@ height:100%;
 }
 .sidebar .scroll::-webkit-scrollbar {
   width: 8px;
-  background: #262440; /* Scrollbar background color */
+  background: #262440; 
   border-radius: 5px;
 }
 .sidebar .scroll::-webkit-scrollbar-thumb {
-  background: #262440; /* Scrollbar thumb color */
+  background: #262440; 
   border-radius: 5px;
 }
 .sidebar .scroll::-webkit-scrollbar-track {
-  background: #171526; /* Scrollbar track color */
+  background: #171526; 
   border-radius: 5px;
 }
 
-/* Sidebar navigation item styling */
+
 .sidebar li {
   position: relative;
   margin: 8px 8px 8px 0;
@@ -118,19 +145,19 @@ height:100%;
   border-radius: 4px;
   font-size: 15px;
   font-weight: 400;
-  opacity: 0; /* Hidden by default */
+  opacity: 0; 
   pointer-events: none;
   transition: 0s;
 }
 .sidebar li:hover .tooltip {
-  opacity: 1; /* Shows tooltip on hover */
+  opacity: 1;
   pointer-events: auto;
   transition: all 0.4s ease;
   top: 50%;
   transform: translateY(-50%);
 }
 
-/* Link styling within sidebar items */
+
 .sidebar li a {
   display: flex;
   height: 100%;
@@ -146,10 +173,10 @@ height:100%;
 
 }
 .sidebar li a:hover {
-  background: #c7ae2f96; /* Lighter background on hover */
+  background: #c7ae2f96;
 }
 
-/* Link text and icon hover effects */
+
 .sidebar li a:hover .links_name {
   transition: all 0.5s ease;
 }
@@ -157,26 +184,26 @@ height:100%;
   transition: all 0.5s ease;
 }
 
-/* Link text styling */
+
 .sidebar li a .links_name,.sidebar li .submenu-toggle .links_name {
   color: #fff;
   font-size: 15px;
   font-weight: 400;
   white-space: nowrap;
-  opacity: 0; /* Hidden by default */
+  opacity: 0; 
   pointer-events: none;
   transition: 0.4s;
 }
 
-/* Icon styling within sidebar items */
+
 .sidebar li i {
   height: 50px;
-  line-height: 50px; /* Centers icon vertically */
+  line-height: 50px; 
   font-size: 18px;
   border-radius: 12px;
 }
 
-/* Profile details styling */
+
 .sidebar li .profile-details {
   display: flex;
   align-items: center;
@@ -190,21 +217,20 @@ height:100%;
   margin-right: 10px;
 }
 
-/* Sidebar input (search) styling */
 .sidebar input {
   font-size: 15px;
   color: #FFF;
   font-weight: 400;
   outline: none;
   height: 50px;
-  width: 50px; /* Default width for search input */
+  width: 50px; 
   border: none;
   border-radius: 12px;
   transition: all 0.5s ease;
-  background: #1d1b31; /* Input background color */
+  background: #1d1b31; 
 }
 
-/* Search button styling */
+
 .sidebar .bx-search {
   position: absolute;
   top: 50%;
@@ -215,15 +241,15 @@ height:100%;
   color: #FFF;
 }
 .sidebar .bx-search:hover {
-  background: #FFF; /* Hover background color */
-  color: #11101d; /* Hover text color */
+  background: #FFF; 
+  color: #11101d; 
 }
 
-/* Profile section styling */
+
 .sidebar li.profile {
   position: fixed;
   height: 60px;
-  width: 78px; /* Default width for profile section */
+  width: 78px; 
   left: 0;
   bottom: -8px;
   padding: 10px 14px;
@@ -244,7 +270,7 @@ height:100%;
   white-space: nowrap;
 }
 
-/* Logout button styling */
+
 .sidebar .profile #log_out {
   position: absolute;
   top: 50%;
@@ -253,59 +279,59 @@ height:100%;
   background: #1d1b31;
   width: 100%;
   height: 60px;
-  line-height: 60px; /* Centers logout icon vertically */
+  line-height: 60px; 
   border-radius: 0px;
   transition: all 0.5s ease;
 }
 
-/* Expanded sidebar styles */
+
 .sidebar.open {
-  width: 250px; /* Expanded sidebar width */
+  width: 250px; 
 }
 .sidebar.open .logo-details .icon {
-  opacity: 1; /* Shows icon in expanded state */
+  opacity: 1; 
 }
 .sidebar.open .logo-details .logo_name {
-  opacity: 1; /* Shows logo name in expanded state */
+  opacity: 1;
 }
 .sidebar.open .logo-details #btn {
   text-align: right;
 }
 .sidebar.open li .tooltip {
-  display: none; /* Hides tooltips when expanded */
+  display: none;
 }
 .sidebar.open li a .links_name ,.sidebar li .submenu-toggle .links_name{
-  opacity: 1; /* Shows link names when expanded */
+  opacity: 1; 
   pointer-events: auto;
 }
 .sidebar.open input {
   padding: 0 20px 0 50px;
-  width: 100%; /* Expands input width */
+  width: 100%; 
 }
 .sidebar.open .bx-search:hover {
   background: #1d1b31;
   color: #FFF;
 }
 .sidebar.open li.profile {
-  width: 250px; /* Expands profile section */
+  width: 250px; 
 }
 .sidebar.open .profile #log_out {
-  width: 50px; /* Shrinks logout button */
+  width: 50px; 
   background: none;
 }
 .sidebar.open ~ .home-section {
-  left: 250px; /* Adjusts home section to sidebar width */
+  left: 250px; 
   width: calc(100% - 250px);
 }
 
-/* Main content (home section) styling */
+
 .home-section {
   position: relative;
-  background: #f9fbffe0; /* Light background for main content */
+  background: #f9fbffe0; 
   min-height: 100vh;
   top: 0;
   left: 78px;
-  width: calc(100% - 78px); /* Adjusts width to fit next to sidebar */
+  width: calc(100% - 78px); 
   transition: all 0.5s ease;
   z-index: 2;
   padding: 0 20px;
@@ -322,7 +348,7 @@ height:100%;
   max-width: 600px;
   margin: auto;
   padding: 20px;
-  background: #fff; /* White background for form */
+  background: #fff; 
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
@@ -355,8 +381,8 @@ height:100%;
 }
 .form-container .form-group input:focus,
 .form-container .form-group select:focus {
-  border-color: #007bff; /* Focus border color */
-  outline: none; /* Remove default outline */     
+  border-color: #007bff; 
+  outline: none;  
 }
 
 .main_page {
@@ -396,19 +422,22 @@ height:100%;
     font-size: 13px;
     
 }
+.img-uploade{
+line-height: 41px !important;
+}
 .form-group .form-control{
     width: 100%;
     padding: 0 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 14px;
-    font-family: 'Poppins', sans-serif; /* Using Inter font for form controls */
+    font-family: 'Poppins', sans-serif; 
 }
 
 .form-group .form-control:focus {
-    border-color: #007bff; /* Focus border color */
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Subtle shadow on focus */
-    outline: none; /* Remove default outline */
+    border-color: #007bff; 
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); 
+    outline: none;
 }
 .form-group  input, .form-group select {
     width: 100%;
@@ -416,7 +445,7 @@ height:100%;
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 14px;
-    font-family: 'Poppins', sans-serif; /* Using Poppins font for form controls */
+    font-family: 'Poppins', sans-serif; 
 }
 ul {
     padding: 0;
@@ -443,7 +472,7 @@ textarea.form-control{
 }
 
 button[type="submit"] {
-    /* margin-top: 10px; */
+ 
     border-radius: 5px;
 }
 
@@ -463,45 +492,37 @@ button[type="submit"] {
   text-align: start;
   margin-top: 20px;
 }
-.form-footer button {
-  padding: 10px 20px;
-  background-color: #007bff; /* Primary button color */
-  color: #fff; /* Button text color */
-  border: none;   
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-}
+
 .form-footer button:hover {
-  background-color: #0056b3; /* Darker shade on hover */
+  background-color: #0056b3; 
 }
 .page_sec {
     border: 1px solid #ccc;
     background: #fff;
     border-radius: 10px;
     padding: 20px;
-    /* margin-bottom: 15px; */
+   
     height: auto;
 }
 
 .form-control:focus {
-    border-color: #007bff; /* Focus border color */
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Subtle shadow on focus */
-    outline: none; /* Remove default outline */
+    border-color: #007bff; 
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); 
+    outline: none; 
 }
 .form-control.error {
-    border-color: red; /* Red border for error state */
+    border-color: red; 
 }
 .form-control.error:focus {
-    border-color: darkred; /* Darker red on focus for error state */
-    box-shadow: 0 0 5px rgba(255, 0, 0, 0.5); /* Red shadow on focus for error state */
+    border-color: darkred; 
+    box-shadow: 0 0 5px rgba(255, 0, 0, 0.5); 
 }
 .form-control.success {
-    border-color: green; /* Green border for success state */
+    border-color: green; 
 }
 .form-control.success:focus {
-    border-color: darkgreen; /* Darker green on focus for success state */
-    box-shadow: 0 0 5px rgba(0, 255, 0, 0.5); /* Green shadow on focus for success state */
+    border-color: darkgreen; 
+    box-shadow: 0 0 5px rgba(0, 255, 0, 0.5); 
 } 
 .error{
   color: red;
@@ -509,10 +530,10 @@ button[type="submit"] {
 }
 
 
-/* dashbord */
+
 .dashboard-card {
   height: 100px;
-  color: #475b6e; /* dark text */
+  color: #475b6e; 
   transition: transform 0.2s ease-in-out;
 }
 .icon {
@@ -532,4 +553,30 @@ button[type="submit"] {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+#center {
+  height: 100vh;
+  width: 100%;
+  background-image: url('/bg.jpg'); 
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-container {
+  background-color: rgba(255, 255, 255, 0.9); 
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 400px;
+ 
+}
+.img-container{
+ width: 50%;
+    margin: 0px auto;
 }
