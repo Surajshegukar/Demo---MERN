@@ -9,10 +9,13 @@ import Login from "./pages/Login";
 import AddService from "./pages/AddService";
 import ServiceList from "./pages/ServiceList";
 
+import { store } from "./store/store";
+import instance, { setupInterceptors } from "./utils/axiosInstance";
+
+setupInterceptors(store);
   
 const ProtectedLayout = ({ children }) => {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-
   return isAuthenticated ? children : <Navigate to="/login" replace />;
 };
 

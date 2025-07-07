@@ -71,9 +71,9 @@ const createService = async (req, res) => {
 
 const updateService = async (req, res) => {
   const { id } = req.params;
-  
+
   try {
-     const updatedData = {
+    const updatedData = {
       ...req.body,
     };
 
@@ -82,17 +82,19 @@ const updateService = async (req, res) => {
       updatedData.service_img = req.file.filename;
     }
 
- const [updated] = await serviceModel.update(updatedData, {
+    const [updated] = await serviceModel.update(updatedData, {
       where: { id },
     });
 
-    if (!updated) {
-      res.status(404).json({
-        success: false,
-        message: "Record not found",
+    if (updated === 0) {
+      res.status(200).json({
+        success: true,
+        message: "No changes made; data already up to date.",
         data: null,
       });
     }
+  
+
     const updatedService = await serviceModel.findByPk(id);
     res.status(200).json({
       success: true,
@@ -128,7 +130,7 @@ const deleteService = async (req, res) => {
       status: 200,
       message: "Record deleted successfully",
       data: {
-        id: id, 
+        id: id,
       },
       error: null,
     });

@@ -8,6 +8,7 @@ function ServiceList() {
   const [toggle, setToggle] = useState(false);
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
+
 const columns = [
   {
     name: "S.No",
@@ -66,6 +67,7 @@ const columns = [
     button: true,
   },
 ];
+
 
   const handleEdit = (id) => {
     navigate("/add-service/" + id);

@@ -6,6 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import axios from "../utils/axiosInstance";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
+import { studentSchema } from "../validations/studentValidation";
 
 export default function AddStudent() {
   const [loading, setLoading] = useState(false);
@@ -14,38 +15,7 @@ export default function AddStudent() {
   const [imagePreview, setImagePreview] = useState("");
   const { id } = useParams();
 
-  const schema = Yup.object({
-    first_name: Yup.string()
-      .min(2, "First name must be at least 2 characters")
-      .max(100, "First name cannot exceed 100 characters")
-      .required("First name is required"),
-
-    last_name: Yup.string()
-      .min(2, "Last name must be at least 2 characters")
-      .max(100, "Last name cannot exceed 100 characters")
-      .required("Last name is required"),
-
-    dob: Yup.date().required("Date of birth is required"),
-
-    profile: Yup.mixed()
-      .nullable()
-      .test("fileType", "Only image files are allowed", (value) => {
-        if (!value || value.length === 0) return true;
-        return ["image/jpeg", "image/png", "image/jpg"].includes(
-          value[0]?.type
-        );
-      }),
-    email: Yup.string()
-      .email("Enter a valid email address")
-      .max(150, "Email cannot exceed 150 characters")
-      .required("Email is required"),
-
-    mobile_no: Yup.string()
-      .matches(/^\+?[0-9\s\-]{7,15}$/, "Enter a valid mobile number")
-      .required("Mobile number is required"),
-
-    address: Yup.string().required("Address is required"),
-  });
+ 
 
   const {
     register,
@@ -53,7 +23,7 @@ export default function AddStudent() {
     formState: { errors, isSubmitting },
     reset,
   } = useForm({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(studentSchema),
   });
 
   const onSubmit = async (data) => {
@@ -73,8 +43,8 @@ export default function AddStudent() {
       }
 
       const url = id
-        ? `http://localhost:3000/api/students/${id}`
-        : `http://localhost:3000/api/students`;
+        ? `/api/students/${id}`
+        : `/api/students`;
 
       const method = id ? "put" : "post";
 
@@ -105,10 +75,10 @@ export default function AddStudent() {
       const fetchStudent = async () => {
         try {
           const res = await axios.get(
-            `http://localhost:3000/api/students/${id}`
+            `/api/students/${id}`
           );
           const student = res.data.data;
-          setImagePreview(`http://localhost:3000/uploads/${student.profile}`);
+          setImagePreview(`/uploads/${student.profile}`);
 
           reset({
             first_name: student.first_name,

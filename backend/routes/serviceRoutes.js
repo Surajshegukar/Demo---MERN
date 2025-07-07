@@ -3,16 +3,12 @@ const router = express.Router();
 const { createService, getAjaxServices, getServiceById, updateService, deleteService, getAllServices } = require('../controllers/serviceController');
 const { serviceValidationRules, validateRequest } = require('../validations/validations');
 const authenticateAdmin = require('../middleware/authenticateAdmin');
-const upload = require('../middleware/upload');
-const dynamicUpload = require('../middleware/dynamicUpload');
-
-
+// const upload = require('../middleware/upload');
+const upload = require('../middleware/singleUpload')('uploads/services');
 
 router.get('/services', getAllServices);
 router.get('/get-service/:id',authenticateAdmin, getServiceById);
-router.post('/add-service', authenticateAdmin, upload.single("service_img"),serviceValidationRules, validateRequest, createService,(req,res)=>{
-    console.log(req.body);
-});
+router.post('/add-service', authenticateAdmin,upload.single("service_img"),serviceValidationRules, validateRequest, createService);
 router.put('/add-service/:id',authenticateAdmin, upload.single("service_img"),serviceValidationRules, validateRequest, updateService);
 router.delete('/delete-service/:id',authenticateAdmin, deleteService);
     
