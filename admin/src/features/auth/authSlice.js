@@ -1,36 +1,51 @@
 // features/auth/authSlice.js
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from '../../utils/axiosInstance';
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import instance from "../../utils/axiosInstance";
 
 export const adminLogin = createAsyncThunk(
-  'auth/adminLogin',
+  "auth/adminLogin",
   async ({ email, password }, { rejectWithValue }) => {
     try {
-      const res = await axios.post('/auth/login', { email, password });
-      return res.data.data; 
+      const res = await instance.post("/auth/login", { email, password });
+      return res.data.data.user;
     } catch (err) {
-      return rejectWithValue(err.response?.data?.message || 'Login failed');
+      return rejectWithValue(err.response?.data?.message || "Login failed");
     }
   }
 );
 
-// const token = localStorage.getItem('token');
+export const fetchSession = createAsyncThunk(
+  "auth/fetchSession",
+  async (_, { rejectWithValue }) => {
+    try {
+      const res = await instance.get("/auth/me");
+      return res.data.data.user;
+    } catch (err) {
+      return rejectWithValue(null);
+    }
+  }
+);
+
+export const adminLogOut = createAsyncThunk("auth/logout", async () => {
+  await instance.post("/auth/logout");
+  return null;
+});
+
 
 const authSlice = createSlice({
-  name: 'auth',
+  name: "auth",
   initialState: {
-    user:null,
-    token:null,
+    user: null,
     isAuthenticated: false,
     loading: false,
     error: null,
   },
   reducers: {
-    logout: (state) => {
-      state.user = null;
-      state.token = null;
-      state.isAuthenticated = false;
-      localStorage.removeItem('token');
+    setAuthenticated: (state, action) => {
+      state.isAuthenticated = action.payload;
+    },
+    clearError: (state) => {
+      state.error = null;
     },
   },
   extraReducers: (builder) => {
@@ -41,14 +56,31 @@ const authSlice = createSlice({
       })
       .addCase(adminLogin.fulfilled, (state, action) => {
         state.loading = false;
-        state.user = action.payload.user;
-        state.token = action.payload.token;
+        state.user = action.payload;
         state.isAuthenticated = true;
-        localStorage.setItem('token', action.payload);
       })
       .addCase(adminLogin.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+        state.isAuthenticated = false;
+      })
+
+      .addCase(adminLogOut.fulfilled, (state) => {
+        state.user = null;
+        state.isAuthenticated = false;
+      })
+      .addCase(fetchSession.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      
+      .addCase(fetchSession.fulfilled, (state, action) => {
+        state.user = action.payload;
+        state.isAuthenticated = true;
+      })
+      .addCase(fetchSession.rejected, (state) => {
+        state.user = null;
+        state.isAuthenticated = false;
       });
   },
 });

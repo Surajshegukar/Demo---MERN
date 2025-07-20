@@ -14,7 +14,7 @@ export default function AddService() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [imagePreview, setImagePreview] = useState("");
-  const backendUrl = import.meta.env.REACT_APP_API_URL;
+
 
   const {
     register,
@@ -58,7 +58,7 @@ export default function AddService() {
             service_name: data.service_name,
             service_description: data.service_description,
           });
-          setImagePreview(`${backendUrl}/uploads/services/${data.service_img}`);
+          setImagePreview(`${import.meta.env.VITE_APP_API_URL}/uploads/services/${data.service_img}`);
         })
         .catch(() => setMessage("Error fetching service data"));
     }

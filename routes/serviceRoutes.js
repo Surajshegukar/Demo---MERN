@@ -4,7 +4,7 @@ const { createService, getAjaxServices, getServiceById, updateService, deleteSer
 const { serviceValidationRules, validateRequest } = require('../validations/validations');
 const authenticateAdmin = require('../middleware/authenticateAdmin');
 // const upload = require('../middleware/upload');
-const upload = require('../middleware/singleUpload')('uploads/services');
+const upload = require('../middleware/upload')('uploads/services');
 
 router.get('/services', getAllServices);
 router.get('/get-service/:id',authenticateAdmin, getServiceById);

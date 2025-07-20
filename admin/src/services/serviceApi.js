@@ -1,11 +1,11 @@
 // api/serviceApi.js
-import axios from "../utils/axiosInstance";
+import instance from "../utils/axiosInstance";
 
 export const getServiceById = (id) =>
-  axios.get(`/api/services/get-service/${id}`);
+  instance.get(`/api/services/get-service/${id}`);
 
 export const submitServiceForm = (id, formData, method) =>
-  axios({
+  instance({
     method,
     url: id
       ? `/api/services/add-service/${id}`

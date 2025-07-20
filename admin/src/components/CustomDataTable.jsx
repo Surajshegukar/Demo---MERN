@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useCallback } from "react";
 import DataTable from "react-data-table-component";
 import Alert from "./Alert";
+import instance from "../utils/axiosInstance";
+
 
 const CustomDataTable = ({ tableName, url, columns, refresh, message }) => {
   const [items, setItems] = useState([]);
@@ -20,24 +22,21 @@ const CustomDataTable = ({ tableName, url, columns, refresh, message }) => {
       const start = (page - 1) * perPage;
       const length = perPage;
 
-      const response = await fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          draw,
-          start,
-          length,
-          search: { value: search },
-          order: [
-            {
-              column: orderColumn,
-              dir: orderDirection,
-            },
-          ],
-        }),
-      });
-
-      const json = await response.json();
+      const jsonData = {
+        draw,
+        start,
+        length,
+        search: { value: search },
+        order: [
+          {
+            column: orderColumn,
+            dir: orderDirection,
+          },
+        ],
+      };
+      const response = await instance.post(url, jsonData);
+      const json = await response.data;
+      
       setItems(json.data);
       setTotalRows(json.recordsFiltered);
       setLoading(false);

@@ -1,6 +1,10 @@
 const { Sequelize } = require('sequelize');
 const mysql = require('mysql2/promise');
-require('dotenv').config();
+require('dotenv').config(
+  {
+    path: process.env.NODE_ENV === 'production' ? '.env.production' : '.env.development'
+  }
+);
 
 const sequelize = new Sequelize(
   process.env.MYSQL_DATABASE || 'quick_react', 

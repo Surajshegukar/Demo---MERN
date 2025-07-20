@@ -2,19 +2,16 @@
 const jwt = require('jsonwebtoken');
 
 const authenticateAdmin = (req, res, next) => {
-  const authHeader = req.headers.authorization;
-
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+  const token = req.cookies?.accessToken; // 🍪 Extract from cookie
+  console.log("Token from cookie:", token);
+  if (!token) {
     return res.status(401).json({
       success: false,
       message: 'Unauthorized: No token provided',
       data: null,
-      error: { code: 'AUTH_NO_TOKEN' },
+      error: { message: 'No token provided' },
     });
   }
-
-  const token = authHeader.split(' ')[1];
-
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);

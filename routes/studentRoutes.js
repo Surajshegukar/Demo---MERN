@@ -3,7 +3,7 @@ const router = express.Router();
 const { createStudent, getAjaxStudents, getStudentById, updateStudent, deleteStudent, getAllStudents } = require('../controllers/studentController');
 const { studentValidationRules, validateRequest } = require('../validations/validations');
 const authenticateAdmin = require('../middleware/authenticateAdmin');
-const upload = require('../middleware/upload');
+const upload = require('../middleware/upload')('uploads/');
 
 
 

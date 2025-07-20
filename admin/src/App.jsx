@@ -10,7 +10,9 @@ import AddService from "./pages/AddService";
 import ServiceList from "./pages/ServiceList";
 
 import { store } from "./store/store";
-import instance, { setupInterceptors } from "./utils/axiosInstance";
+import { setupInterceptors } from "./utils/axiosInstance";
+import { useEffect } from "react";
+import { fetchSession } from "./features/auth/authSlice";
 
 setupInterceptors(store);
   
@@ -34,6 +36,11 @@ const Layout = ({ children }) => {
 };
 
 function App() {
+  const dispatch = store.dispatch;
+  useEffect(() => {
+  dispatch(fetchSession()); // Validate session from cookie on mount
+}, []);
+
   return (
     <Router>
       <Layout>

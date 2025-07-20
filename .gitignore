@@ -68,27 +68,6 @@ client/.turbo/
 # Local data for testing
 *.local.json
 
-
-# Next.js build output
-.next/
-out/
-
-# Next.js cache (if using TurboPack or SWC)
-.next/cache/
-turbo/
-
-# Optional: Vercel deployment output
-.vercel/
-
-# Optional: Static export
-out/
-
-# Optional: Preview mode cookies
-.next/standalone/
-.next/static/
-
 # Ignore server uploads if any
 uploads/
 public/uploads/
-
-

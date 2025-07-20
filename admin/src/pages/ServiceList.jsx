@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import CustomDataTable from "../components/CustomDataTable";
-import axios from "axios";
+import instance from "../utils/axiosInstance";
 import { Link, useNavigate } from "react-router-dom";
 
 function ServiceList() {
@@ -29,7 +29,7 @@ const columns = [
     name: "Service Image",
     selector: (row) => (
       <Link
-        to={`http://localhost:3000/uploads/${row[3]}`}
+        to={`${import.meta.env.VITE_APP_API_URL}/uploads/services/${row[3]}`}
         target="_blank"
         rel="noopener noreferrer"
       >
@@ -75,8 +75,8 @@ const columns = [
 
   const handleDelete = async (id) => {
     try {
-      const response = await axios.delete(
-        `http://localhost:3000/api/services/delete-service/${id}`,
+      const response = await instance.delete(
+        `/api/services/delete-service/${id}`,
       );
       if (response.data) {
         const { success, message } = response.data;
@@ -93,7 +93,7 @@ const columns = [
     <div>
       <CustomDataTable
         tableName={"Service"}
-        url={"http://localhost:3000/api/services/ajax/service-list"}
+        url={"/api/services/ajax/service-list"}
         columns={columns}
         refresh={toggle}
         message={message}

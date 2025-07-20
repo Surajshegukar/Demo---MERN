@@ -19,20 +19,11 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const result = await dispatch(adminLogin({ email, password }));
-    if (adminLogin.fulfilled.match(result)) {
-      const token = result.payload.token; // ✅ safer access
-      setMessage("Login successfully !");
-      setTimeout(() => {
-        setMessage("");
-        localStorage.setItem("token", token);
-        navigate("/dashboard");
-      }, 2000);
-    }
-    if (adminLogin.rejected.match(result)) {
-      setMessage("Error : Invalid credentials");
-      setTimeout(() => {
-        setMessage("");
-      }, 2000);
+    if (result.error) {
+      setMessage("Error: " + result.error.message);
+    } else {
+      setMessage("Login successful!");
+      navigate("/dashboard");
     }
   };
 
