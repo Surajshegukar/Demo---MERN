@@ -38,13 +38,11 @@ const registerUser = async (req, res) => {
 // Login Route
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
-  console.log("Login attempt with email:", email);
 
   try {
     const user = await authModel.findOne({ where: { email } });
-    console.log("User found:", user ? user.id : "No user found");
     const passwordMatch = user && await bcrypt.compare(password, user.password);
-    console.log("Password match:", passwordMatch);
+
     if (!user || !passwordMatch) {
       return res.status(401).json({
         success: false,
