@@ -91,9 +91,18 @@ const validateRequest = (req, res, next) => {
   next();
 };
 
+const validateId = (req, res, next) => {
+  const { id } = req.params;
+  if (!id || isNaN(id)) {
+    return res.status(400).json({ error: 'Invalid ID' });
+  }
+  next();
+};
+
 module.exports = {
     userValidationRules,
     studentValidationRules,
     serviceValidationRules,
+    validateId,
     validateRequest
 }

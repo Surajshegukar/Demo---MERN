@@ -17,7 +17,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true,
 }));
@@ -27,8 +27,8 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Serve static files for admin and frontend in production
 if (process.env.NODE_ENV === 'production') {
-  app.use('/admin', express.static(path.join(__dirname, './admin/dist')));
-  app.use('/center', express.static(path.join(__dirname, './frontend/dist')));
+  app.use('/admin', express.static(path.join(__dirname, '.views/admin/dist')));
+  app.use('/center', express.static(path.join(__dirname, '.views/frontend/dist')));
 }
 
 const authRoutes = require('./routes/authRoutes');
@@ -36,8 +36,10 @@ const studentRoutes = require('./routes/studentRoutes');
 const serviceRoutes = require('./routes/serviceRoutes');
 
 app.use('/auth', authRoutes);
-app.use('/api',studentRoutes)
+// app.use('/api',studentRoutes)
 app.use('/api/services', serviceRoutes);
+// common routes like delete, active and inactive
+app.use('/api', require('./routes/commonRoutes')); 
 
 
 app.listen(process.env.PORT || 3000, () => {

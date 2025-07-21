@@ -17,16 +17,16 @@
     "sequelize": "^6.37.7",
     "uuid": "^11.1.0"
   },
-  "scripts": {
-    "install-all": "npm install && cd admin && npm install && cd ../frontend && npm install",
-    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\" \"npm run dev:web\"",
-    "dev:server": "cross-env NODE_ENV=development nodemon index.js",
-    "dev:client": "cd admin && cross-env NODE_ENV=development npm run dev",
-    "dev:web": "cd frontend && cross-env NODE_ENV=development npm run dev",
-    "build-client": "cd admin && npm run build",
-    "build-web": "cd frontend && npm run build",
-    "build-all": "npm run build-client && npm run build-web",
-    "start": "npm run start:server",
-    "start:server": "cross-env NODE_ENV=production node index.js"
-  }
+"scripts": {
+  "install-all": "npm install && cd views/admin && npm install && cd ../frontend && npm install",
+  "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\" \"npm run dev:web\"",
+  "dev:server": "cross-env NODE_ENV=development nodemon index.js",
+  "dev:client": "cd views/admin && cross-env NODE_ENV=development npm run dev",
+  "dev:web": "cd views/frontend && cross-env NODE_ENV=development npm run dev",
+  "build-client": "cd views/admin && npm run build",
+  "build-web": "cd views/frontend && npm run build",
+  "build-all": "npm run build-client && npm run build-web",
+  "start": "npm run start:server",
+  "start:server": "cross-env NODE_ENV=production node index.js"
+}
 }

@@ -7,14 +7,12 @@ import Alert from "../components/Alert";
 import serviceSchema from "../validations/serviceSchema";
 import { getServiceById, submitServiceForm } from "../services/serviceApi";
 
-
 export default function AddService() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [imagePreview, setImagePreview] = useState("");
-
 
   const {
     register,
@@ -24,6 +22,16 @@ export default function AddService() {
   } = useForm({
     resolver: yupResolver(serviceSchema),
   });
+
+  const resetForm = () => {
+    reset({
+      service_name: "",
+      service_description: "",
+      service_img: null,
+    });
+    setImagePreview("");
+    setMessage("");
+  };
 
   const onSubmit = async (data) => {
     setLoading(true);
@@ -37,15 +45,17 @@ export default function AddService() {
 
       const method = id ? "put" : "post";
       const response = await submitServiceForm(id, formData, method);
-
       const { success, message } = response.data;
       setMessage(success ? `Success: ${message}` : `Error: ${message}`);
+
     } catch (err) {
       const msg = err.response?.data?.message || err.message;
       setMessage(`Error: ${msg}`);
+      resetForm();
+
     } finally {
       setLoading(false);
-      setTimeout(() => navigate("/service-list"), 3000);
+    
     }
   };
 
@@ -58,7 +68,11 @@ export default function AddService() {
             service_name: data.service_name,
             service_description: data.service_description,
           });
-          setImagePreview(`${import.meta.env.VITE_APP_API_URL}/uploads/services/${data.service_img}`);
+          setImagePreview(
+            `${import.meta.env.VITE_APP_API_URL}/uploads/services/${
+              data.service_img
+            }`
+          );
         })
         .catch(() => setMessage("Error fetching service data"));
     }
