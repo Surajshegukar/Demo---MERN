@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize');
-const { sequelize } = require('../db/connectDB');
+const { sequelize } = require('../config/db');
 
 const serviceModel = sequelize.define('tbl_services', {
   id: {

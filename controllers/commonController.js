@@ -1,25 +1,49 @@
 const express = require("express");
 const router = express.Router();
 
-deleteItem = async (req, res) => {
+const deleteItem = async (req, res) => {
   const { model, id } = req.params;
+
   try {
-    const item = await req.app.get("db").models[model].findByPk(id);
-    if (!item) {
-      return res
-        .status(404)
-        .json({ success: false, message: `${model} not found` });
+    // Validate model existence
+    const dbModels = req.app.get("db").models;
+    if (!dbModels[model]) {
+      return res.status(400).json({
+        success: false,
+        message: `Invalid model name '${model}'`,
+        data: null,
+      });
     }
-    item.is_deleted = "1"; 
+
+    // Find item by ID
+    const item = await dbModels[model].findByPk(id);
+    if (!item) {
+      return res.status(404).json({
+        success: false,
+        message: `${model} with ID ${id} not found`,
+        data: null,
+      });
+    }
+
+    // Soft delete
+    item.is_deleted = "1";
+
+    // Save changes
     await item.save();
 
-    return res
-      .status(200)
-      .json({ success: true, message: `${model} deleted successfully` });
+    return res.status(200).json({
+      success: true,
+      message: `${model} with ID ${id} deleted successfully`,
+      data: null,
+    });
   } catch (error) {
-    return res
-      .status(500)
-      .json({ success: false, message: "Internal Server Error", error });
+    console.error('DeleteItem Error:', error); // Log the error stack
+
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+      error: error.message || "Unknown error",
+    });
   }
 };
 

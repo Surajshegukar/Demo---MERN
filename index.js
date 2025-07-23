@@ -8,9 +8,18 @@ require('dotenv').config({
   path: process.env.NODE_ENV === 'production' ? '.env.production' : '.env.development'
 });
 
-const {connectMySQL} = require('./db/connectDB');
+const {connectMySQL, sequelize} = require('./config/db');
 
 connectMySQL();
+
+
+app.set("db", sequelize); // Attach Sequelize to app
+
+app.use((req, res, next) => {
+  req.db = sequelize; // Attach Sequelize to request object
+  next();
+});
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

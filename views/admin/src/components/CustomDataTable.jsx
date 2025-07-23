@@ -46,7 +46,7 @@ const CustomDataTable = ({ tableName, url, columns, refresh, message }) => {
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      fetchItems(page, perPage, searchText);
+      fetchItems(page, perPage, searchText, );
     }, 500);
 
     return () => clearTimeout(timeout);

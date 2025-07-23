@@ -1,4 +1,4 @@
-const { Op } = require("sequelize");
+const { Op, where } = require("sequelize");
 const serviceModel = require("../models/serviceModel");
 
 const getAllServices = async (req, res) => {
@@ -161,6 +161,8 @@ const getAjaxServices = async (req, res) => {
   ];
   const sortField = columns[colIndex] || "first_name";
 
+
+
   const whereClause = searchValue
     ? {
         [Op.or]: [
@@ -170,14 +172,19 @@ const getAjaxServices = async (req, res) => {
       }
     : {};
 
+    whereClause.is_deleted = "0"; // Ensure we only fetch non-deleted records
+    
+
   const total = await serviceModel.count();
   const filtered = await serviceModel.count({ where: whereClause });
+
 
   const docs = await serviceModel.findAll({
     where: whereClause,
     order: [[sortField, dir]],
     offset: start,
     limit: length,
+
   });
 
   const data = docs.map((user, i) => [
