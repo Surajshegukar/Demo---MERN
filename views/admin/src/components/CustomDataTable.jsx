@@ -3,7 +3,6 @@ import DataTable from "react-data-table-component";
 import Alert from "./Alert";
 import instance from "../utils/axiosInstance";
 
-
 const CustomDataTable = ({ tableName, url, columns, refresh, message }) => {
   const [items, setItems] = useState([]);
   const [totalRows, setTotalRows] = useState(0);
@@ -13,6 +12,7 @@ const CustomDataTable = ({ tableName, url, columns, refresh, message }) => {
   const [searchText, setSearchText] = useState("");
   const [orderDirection, setOrderDirection] = useState("asc");
   const [orderColumn, setOrderColumn] = useState(0);
+
 
   const fetchItems = useCallback(
     async (page, perPage = 10, search = "") => {
@@ -36,21 +36,30 @@ const CustomDataTable = ({ tableName, url, columns, refresh, message }) => {
       };
       const response = await instance.post(url, jsonData);
       const json = await response.data;
-      
+
       setItems(json.data);
       setTotalRows(json.recordsFiltered);
       setLoading(false);
     },
-    [url, orderColumn, orderDirection]
+    [url, orderColumn, orderDirection, refresh]
   );
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      fetchItems(page, perPage, searchText, );
+      fetchItems(page, perPage, searchText);
     }, 500);
 
     return () => clearTimeout(timeout);
-  }, [searchText, page, perPage, fetchItems, refresh, orderColumn, orderDirection]);
+  }, [
+    searchText,
+    page,
+    perPage,
+    fetchItems,
+    refresh,
+    orderColumn,
+    orderDirection,
+
+  ]);
 
   const handlePageChange = (page) => setPage(page);
   const handlePerRowsChange = async (newPerPage, page) => {
@@ -125,11 +134,12 @@ const CustomDataTable = ({ tableName, url, columns, refresh, message }) => {
   };
 
   return (
-    <div className="main_page">
-      <div className="page_title">
-        <h3>{tableName || "NA"} List</h3>
-      </div>
-      <div className="page_body">
+    // <div className="main_page">
+    //   <div className="page_title">
+    //     <h3>{tableName || "NA"} List</h3>
+    //   </div>
+    //   <div className="page_body">
+        
         <div className="page_sec">
           {message && <Alert message={message} />}
           <input
@@ -167,8 +177,8 @@ const CustomDataTable = ({ tableName, url, columns, refresh, message }) => {
             />
           </div>
         </div>
-      </div>
-    </div>
+    //   </div>
+    // </div>
   );
 };
 

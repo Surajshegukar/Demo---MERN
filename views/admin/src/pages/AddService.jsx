@@ -47,6 +47,12 @@ export default function AddService() {
       const response = await submitServiceForm(id, formData, method);
       const { success, message } = response.data;
       setMessage(success ? `Success: ${message}` : `Error: ${message}`);
+      if (success) {
+        resetForm();
+        setTimeout(() => {
+          navigate("/service-list");
+        }, 2000);
+      }
 
     } catch (err) {
       const msg = err.response?.data?.message || err.message;

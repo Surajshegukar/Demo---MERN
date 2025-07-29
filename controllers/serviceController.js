@@ -150,6 +150,8 @@ const getAjaxServices = async (req, res) => {
   const length = parseInt(req.body.length) || 10;
   const order = req.body.order || [];
   const searchValue = req.body.search?.value || "";
+  // Get status filter from query params (for GET) or body (for POST)
+  const statusFilter = req.query.status || req.body.status || "all";
 
   const colIndex = order[0]?.column || 0;
   const dir = order[0]?.dir === "asc" ? "ASC" : "DESC";
@@ -163,17 +165,18 @@ const getAjaxServices = async (req, res) => {
 
 
 
-  const whereClause = searchValue
-    ? {
-        [Op.or]: [
-          { service_name: { [Op.like]: `%${searchValue}%` } },
-          { service_description: { [Op.like]: `%${searchValue}%` } },
-        ],
-      }
-    : {};
-
-    whereClause.is_deleted = "0"; // Ensure we only fetch non-deleted records
-    
+  let whereClause = {};
+  if (searchValue) {
+    whereClause[Op.or] = [
+      { service_name: { [Op.like]: `%${searchValue}%` } },
+      { service_description: { [Op.like]: `%${searchValue}%` } },
+    ];
+  }
+  whereClause.is_deleted = "0"; // Ensure we only fetch non-deleted records
+  // Add status filter if not 'all'
+  if (statusFilter !== "all") {
+    whereClause.status = statusFilter;
+  }
 
   const total = await serviceModel.count();
   const filtered = await serviceModel.count({ where: whereClause });

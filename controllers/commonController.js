@@ -61,7 +61,7 @@ activateItem = async (req, res) => {
 
     return res
       .status(200)
-      .json({ success: true, message: `${model} activated successfully` });
+      .json({ success: true, message: `record activated successfully` });
   } catch (error) {
     return res
       .status(500)
@@ -78,12 +78,12 @@ deactivateItem = async (req, res) => {
         .status(404)
         .json({ success: false, message: `${model} not found` });
     }
-    item.status = "inactive";
+    item.status = "0";
     await item.save();
 
     return res
       .status(200)
-      .json({ success: true, message: `${model} deactivated successfully` });
+      .json({ success: true, message: `record deactivated successfully` });
   } catch (error) {
     return res
       .status(500)

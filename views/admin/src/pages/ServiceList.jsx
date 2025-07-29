@@ -1,14 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import CustomDataTable from "../components/CustomDataTable";
 import instance from "../utils/axiosInstance";
 import { Link, useNavigate } from "react-router-dom";
-import { activateItem, deactivateItem, deleteItem } from "../services/commonApi";
+import {
+  activateItem,
+  deactivateItem,
+  deleteItem,
+} from "../services/commonApi";
 
 function ServiceList() {
-  const [toggle, setToggle] = useState(false);
+  const [refresh, setRefresh] = useState(false);
   const [message, setMessage] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [filteredUrl, setFilteredUrl] = useState(
+    "/api/services/ajax/service-list"
+  );
   const navigate = useNavigate();
+  // Update the API URL based on status filter
+  useEffect(() => {
+    if (statusFilter === "all") {
+      setFilteredUrl("/api/services/ajax/service-list");
+    } else {
+      setFilteredUrl(`/api/services/ajax/service-list?status=${statusFilter}`);
+    }
+  }, [statusFilter]);
 
   const columns = [
     {
@@ -42,6 +58,10 @@ function ServiceList() {
     {
       name: "Status",
       selector: (row) => row[4],
+      cell: (row) =>(
+        row[4] == 1 ? "Active" : "Inactive"
+
+      ),
       width: "200px",
     },
     {
@@ -66,7 +86,7 @@ function ServiceList() {
             className="btn btn-sm btn-info"
             style={{ marginLeft: "8px" }}
           >
-            {row[4] === "active" ? "Deactivate" : "Activate"}
+            {row[4] == 1 ? "Deactivate" : "Activate"}
           </button>
         </div>
       ),
@@ -77,17 +97,20 @@ function ServiceList() {
   ];
 
   const handleToggleStatus = async (id, currentStatus) => {
-    const newStatus = currentStatus === "active" ? "inactive" : "active";
-    const response = 
-      newStatus === "active"
-        ? await activateItem("tbl_services", id)
-        : await deactivateItem("tbl_services", id);
-
-    if (response.success) {
-      setMessage(`Success: ${response.message}`);
-      setToggle(!toggle); // Refresh the table
+    // If currentStatus is 1 (active), deactivate; if 0 (inactive), activate
+    console.log(refresh);
+    let response;
+    if (currentStatus == 1) {
+      response = await deactivateItem("tbl_services", id);
     } else {
-      setMessage(`Error: ${response.message}`);
+      response = await activateItem("tbl_services", id);
+    }
+
+    if (response.data.success) {
+      setMessage(`Success: ${response.data.message}`);
+      setRefresh(!refresh);
+    } else {
+      setMessage(`Error: ${response.data.message}`);
     }
   };
 
@@ -97,24 +120,43 @@ function ServiceList() {
 
   const handleDelete = async (id) => {
     const response = await deleteItem("tbl_services", id);
-    if (response.success) {
-      setMessage(`Success: ${response.message}`);
-      setToggle(!toggle); // Refresh the table
+    if (response.data.success) {
+      setMessage(`Success: ${response.data.message}`);
+      setRefresh(!refresh); // Refresh the table
     } else {
-      setMessage(`Error: ${response.message}`);
+      setMessage(`Error: ${response.data.message}`);
     }
   };
   return (
     <>
-    <div>
-      <CustomDataTable
-        tableName={"Service"}
-        url={"/api/services/ajax/service-list"}
-        columns={columns}
-        refresh={toggle}
-        message={message}
-      />
-    </div>
+      <div className="main_page">
+        <div className="page_title">
+          <h3>Service List</h3>
+        </div>
+        <div className="page_body"></div>
+        <div className="filter-container">
+          <select
+            className="form-select"
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+            style={{ width: "200px", marginBottom: "16px" }}
+          >
+            <option value="all">All Statuses</option>
+            <option value="1">Active</option>
+            <option value="0">Inactive</option>
+          </select>
+        </div>
+        <div className="table-container">
+          <CustomDataTable
+            tableName={"Service"}
+            url={filteredUrl}
+            columns={columns}
+            refresh={refresh}
+            message={message}
+          
+          />
+        </div>
+      </div>
     </>
   );
 }
