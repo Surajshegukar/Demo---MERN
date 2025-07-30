@@ -1,6 +1,6 @@
 import * as Yup from "yup";
 
-const serviceSchema = Yup.object({
+ const serviceSchema = Yup.object({
   service_name: Yup.string()
     .min(2, "Service name must be at least 2 characters")
     .max(100, "Service name cannot exceed 100 characters")
@@ -18,4 +18,19 @@ const serviceSchema = Yup.object({
       return ["image/jpeg", "image/png", "image/jpg"].includes(value[0]?.type);
     }),
 });
-export default serviceSchema;
+
+const departmentSchema = Yup.object({
+  department_name: Yup.string()
+    .min(2, "Department name must be at least 2 characters")
+    .max(100, "Department name cannot exceed 100 characters")
+    .required("Department name is required"),
+});
+
+const designationSchema = Yup.object({
+  designation_name: Yup.string()
+    .min(2, "Designation name must be at least 2 characters")
+    .max(100, "Designation name cannot exceed 100 characters")
+    .required("Designation name is required"),
+});
+
+export { designationSchema, departmentSchema, serviceSchema };

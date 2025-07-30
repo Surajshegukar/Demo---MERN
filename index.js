@@ -41,13 +41,15 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 const authRoutes = require('./routes/authRoutes');
-const studentRoutes = require('./routes/studentRoutes');
+// const studentRoutes = require('./routes/studentRoutes');
 const serviceRoutes = require('./routes/serviceRoutes');
+const departmentRoutes = require('./routes/departmentRoutes');
+const designationRoutes = require('./routes/designationRoutes');
 
 app.use('/auth', authRoutes);
-// app.use('/api',studentRoutes)
 app.use('/api/services', serviceRoutes);
-// common routes like delete, active and inactive
+app.use('/api/departments',departmentRoutes);
+app.use('/api/designations',designationRoutes);
 app.use('/api', require('./routes/commonRoutes')); 
 
 

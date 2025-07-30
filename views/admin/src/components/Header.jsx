@@ -9,8 +9,11 @@ const menuItems = [
   { name: "Dashboard", icon: "bx bx-grid-alt", link: "/dashboard" },
   {
     name: "Master", icon: "bx bx-user", children: [
-      { name: "Add Student", icon: "bx bx-plus", link: "/add-student" },
-      { name: "Student List", icon: "bx bx-list-ul", link: "/student-list" },
+      { name: "Add Department", icon: "bx bx-plus", link: "/add-department" },
+      { name: "Department List", icon: "bx bx-list-ul", link: "/department-list" },
+
+       { name: "Add Designation", icon: "bx bx-plus", link: "/add-designation" },
+      { name: "Designation List", icon: "bx bx-list-ul", link: "/designation-list" },
 
     ]
   },
@@ -22,6 +25,7 @@ const menuItems = [
 
     ]
   },
+  
 
 
 ];

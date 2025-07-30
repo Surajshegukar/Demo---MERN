@@ -13,6 +13,10 @@ import { store } from "./store/store";
 import { setupInterceptors } from "./utils/axiosInstance";
 import { useEffect } from "react";
 import { fetchSession } from "./features/auth/authSlice";
+import AddDepartment from "./pages/AddDepartment";
+import DepartmentList from "./pages/DepartmentList";
+import AddDesignation from "./pages/AddDesignation";
+import DesignationList from "./pages/DesignationList";
 
 setupInterceptors(store);
   
@@ -60,9 +64,21 @@ function App() {
                   <Route path="/add-student/:id" element={<AddStudent />} />
                   <Route path="/student-list" element={<StudentList />} />
 
-                       <Route path="/add-service/" element={<AddService />} />
+                  <Route path="/add-service/" element={<AddService />} />
                   <Route path="/add-service/:id" element={<AddService />} />
                   <Route path="/service-list" element={<ServiceList />} />
+
+                  <Route path="/add-employee/" element={<AddService />} />
+                  <Route path="/add-employee/:id" element={<AddService />} />
+                  <Route path="/employee-list" element={<ServiceList />} />
+
+                  <Route path="/add-department/" element={<AddDepartment />} />
+                  <Route path="/add-department/:id" element={<AddDepartment />} />
+                  <Route path="/department-list" element={<DepartmentList />} />
+
+                  <Route path="/add-designation/" element={<AddDesignation />} />
+                  <Route path="/add-designation/:id" element={<AddDesignation />} />
+                  <Route path="/designation-list" element={<DesignationList />} />
                   <Route
                     path="*"
                     element={

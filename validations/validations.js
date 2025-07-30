@@ -83,6 +83,23 @@ const serviceValidationRules = [
 
 ];
 
+
+const departmentValidationRules = [
+  body('department_name')
+    .trim()
+    .notEmpty().withMessage('Department name is required')
+    .isLength({ min: 2, max: 100 }).withMessage('Department name must be between 2 and 100 characters'),
+
+];
+
+const designationValidationRules = [
+  body('designation_name')
+    .trim()
+    .notEmpty().withMessage('Designation name is required')
+    .isLength({ min: 2, max: 100 }).withMessage('Designation name must be between 2 and 100 characters'),
+
+];
+
 const validateRequest = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -103,6 +120,8 @@ module.exports = {
     userValidationRules,
     studentValidationRules,
     serviceValidationRules,
+    departmentValidationRules,
+    designationValidationRules,
     validateId,
     validateRequest
 }

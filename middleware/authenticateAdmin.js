@@ -3,7 +3,6 @@ const jwt = require('jsonwebtoken');
 
 const authenticateAdmin = (req, res, next) => {
   const token = req.cookies?.accessToken; // 🍪 Extract from cookie
-  console.log("Token from cookie:", token);
   if (!token) {
     return res.status(401).json({
       success: false,

@@ -4,7 +4,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate, useParams, Link } from "react-router-dom";
 
 import Alert from "../components/Alert";
-import serviceSchema from "../validations/serviceSchema";
+import {serviceSchema} from "../validations/validationSchema";
 import { getServiceById, submitServiceForm } from "../services/serviceApi";
 
 export default function AddService() {
@@ -30,7 +30,9 @@ export default function AddService() {
       service_img: null,
     });
     setImagePreview("");
-    setMessage("");
+   setTimeout(() => {
+      setMessage("");
+    }, 3000);
   };
 
   const onSubmit = async (data) => {

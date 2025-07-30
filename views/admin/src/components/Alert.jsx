@@ -1,18 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 function Alert({ message }) {
-  const [visible, setVisible] = useState(true);
-
-  useEffect(() => {
-    setVisible(true);
-    const timer = setTimeout(() => {
-      setVisible(false);
-    }, 3000);
-    return () => clearTimeout(timer);
-  }, [message]);
-
-  if (!visible || !message) return null;
-
+  
   return (
     <div
       className={`alert ${

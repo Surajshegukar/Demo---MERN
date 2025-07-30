@@ -9,20 +9,20 @@ import {
   deleteItem,
 } from "../services/commonApi";
 
-function ServiceList() {
+function DepartmentList() {
   const [refresh, setRefresh] = useState(false);
   const [message, setMessage] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [filteredUrl, setFilteredUrl] = useState(
-    "/api/services/ajax/service-list"
+    "/api/departments/ajax/department-list"
   );
   const navigate = useNavigate();
   // Update the API URL based on status filter
   useEffect(() => {
     if (statusFilter === "all") {
-      setFilteredUrl("/api/services/ajax/service-list");
+      setFilteredUrl("/api/departments/ajax/department-list");
     } else {
-      setFilteredUrl(`/api/services/ajax/service-list?status=${statusFilter}`);
+      setFilteredUrl(`/api/departments/ajax/department-list?status=${statusFilter}`);
     }
   }, [statusFilter]);
 
@@ -33,27 +33,9 @@ function ServiceList() {
       width: "80px", // 👈 Set fixed width
     },
     {
-      name: "Service Name",
+      name: "Department Name",
       selector: (row) => row[1],
       width: "200px", // 👈 Set minimum width
-    },
-    {
-      name: "Service Description",
-      selector: (row) => row[2],
-      minWidth: "150px", // 👈 Wider column for description
-    },
-    {
-      name: "Service Image",
-      selector: (row) => (
-        <Link
-          to={`${import.meta.env.VITE_APP_API_URL}/uploads/services/${row[3]}`}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Preview
-        </Link>
-      ),
-      width: "200px",
     },
     {
       name: "Status",
@@ -101,9 +83,9 @@ function ServiceList() {
 
     let response;
     if (currentStatus == 1) {
-      response = await deactivateItem("tbl_services", id);
+      response = await deactivateItem("tbl_department", id);
     } else {
-      response = await activateItem("tbl_services", id);
+      response = await activateItem("tbl_department", id);
     }
 
     if (response.data.success) {
@@ -115,11 +97,11 @@ function ServiceList() {
   };
 
   const handleEdit = (id) => {
-    navigate("/add-service/" + id);
+    navigate("/add-department/" + id);
   };
 
   const handleDelete = async (id) => {
-    const response = await deleteItem("tbl_services", id);
+    const response = await deleteItem("tbl_department", id);
     if (response.data.success) {
       setMessage(`Success: ${response.data.message}`);
       setRefresh(!refresh); // Refresh the table
@@ -131,7 +113,7 @@ function ServiceList() {
     <>
       <div className="main_page">
         <div className="page_title">
-          <h3>Service List</h3>
+          <h3>Department List</h3>
         </div>
         <div className="page_body"></div>
         <div className="filter-container">
@@ -148,7 +130,7 @@ function ServiceList() {
         </div>
         <div className="table-container">
           <CustomDataTable
-            tableName={"Service"}
+            tableName={"Department"}
             url={filteredUrl}
             columns={columns}
             refresh={refresh}
@@ -161,4 +143,4 @@ function ServiceList() {
   );
 }
 
-export default ServiceList;
+export default DepartmentList;
